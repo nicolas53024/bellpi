@@ -24,7 +24,7 @@
                     <div class="card ml-4">
                         <div class="card-body">
                             <h1><i class="fas fa-bicycle fa-4x"></i></h1>
-                            <h5 class="card-title">Bicileta</h5>
+                            <h5 class="card-title">Bicicleta</h5>
                         </div>
                     </div>
                 </router-link>
