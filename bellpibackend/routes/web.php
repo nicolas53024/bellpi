@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $vehicle=Vehicle::where('placa',"QDM47E")->firstOrFail();
+    dd($vehicle->user->name);
 });
 Auth::routes();

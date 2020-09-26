@@ -19,10 +19,11 @@
 <script>
     import Nav from "@/components/NavComponent.vue";
     import HorizontalStepper from 'vue-stepper';
-
     import StepOne from '@/components/StepOne.vue';
     import StepTwo from "@/components/StepTwo.vue";
     import LastStep from "@/components/LastStep.vue";
+    import axios from 'axios';
+    axios.defaults.withCredentials = true;
     export default {
         components: {
             Nav,
@@ -30,6 +31,7 @@
         },
         data() {
             return {
+                service: {},
                 idType: '',
                 demoSteps: [{
                         icon: 'edit',
@@ -80,8 +82,29 @@
             // Executed when @stepper-finished event is triggered
             alert(payload) {
                 console.log(payload);
-
-            }
+                this.service.user = this.$store.state.customer;
+                this.service.placa = this.$store.state.placa;
+                this.service.idPlace = this.$store.state.idPlace;
+                this.service.typeVehicle = this.getTypeVehicle(this.$route.params.type);
+                axios.post(this.baseUrl + '/api/store-service', {
+                    service: this.service
+                }).then(() => {
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Perfecto!',
+                        text: "Se ha guardado el servicio con exito",
+                        showConfirmButton: true,
+                    });
+                    setTimeout(() => {
+                            // this.$router.replace({ name: 'Register' }) PTE definir ruta con el id del servicio por get
+                        }, 3000)
+                }).catch(() => {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Algo ha sucedido, no se pudo guardar el servicio',
+                    })
+                })
+            },
         }
     }
 </script>

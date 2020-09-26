@@ -8,7 +8,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         authenticated: false,
-        user: null
+        user: null,
+        placa: '',
+        customer: '',
+        idPlace: 0
     },
     mutations: {
         SET_USER(state, user) {
@@ -16,6 +19,15 @@ export default new Vuex.Store({
         },
         SET_AUTHENTICATED(state, value) {
             state.authenticated = value;
+        },
+        SET_PLACA(state, value) {
+            state.placa = value;
+        },
+        SET_CUSTOMER(state, value) {
+            state.customer = value;
+        },
+        SET_PLACE(state, value) {
+            state.idPlace = value;
         }
     },
     actions: {

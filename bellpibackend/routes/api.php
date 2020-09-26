@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::post('/get-user', [ServiceController::class, 'getUserBySerial']);
+    Route::get('/get-places', [ServiceController::class, 'getPlaces']);
+Route::post('/store-service', [ServiceController::class, 'storeService']);
+});
+//Route::middleware('auth:sanctum')->post('/get-user', [ServiceController::class, 'getUserBySerial']);
+//Route::get('/get-user', [ServiceController::class, 'getUserBySerial']);
+
 
