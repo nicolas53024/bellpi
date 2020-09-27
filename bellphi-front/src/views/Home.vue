@@ -66,7 +66,7 @@
       },
       async submit() {
         await this.login(this.form).then(()=>{
-          this.$router.replace({ name: 'Register' })
+          this.$router.replace({ name: 'Register' });
         })
         .catch(() => {
           this.$swal.fire({

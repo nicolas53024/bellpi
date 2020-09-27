@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Nav currentPage="register" />
+        <Nav currentPage="0" />
         <div class="container mt-5">
             <section class="section">
                 <div class="container">
@@ -27,7 +27,7 @@
     export default {
         components: {
             Nav,
-            HorizontalStepper
+            HorizontalStepper,
         },
         data() {
             return {
@@ -88,16 +88,20 @@
                 this.service.typeVehicle = this.getTypeVehicle(this.$route.params.type);
                 axios.post(this.baseUrl + '/api/store-service', {
                     service: this.service
-                }).then(() => {
+                }).then((res) => {
+                    var data=`Se ha guardado el servicio con exito.`
+                    if(res.data.name){
+                     data=`Se ha guardado el servicio con exito, el sistema ha asignado ${res.data.name} como sitio de parqueo.`
+                    }
                     this.$swal.fire({
                         icon: 'success',
                         title: 'Perfecto!',
-                        text: "Se ha guardado el servicio con exito",
+                        text: data,
                         showConfirmButton: true,
                     });
                     setTimeout(() => {
-                            // this.$router.replace({ name: 'Register' }) PTE definir ruta con el id del servicio por get
-                        }, 3000)
+                       location.reload();
+                    }, 3000)
                 }).catch(() => {
                     this.$swal.fire({
                         icon: 'error',

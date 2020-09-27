@@ -37,7 +37,7 @@ export default new Vuex.Store({
             return dispatch("getUser");
         },
         async logout({ dispatch }) {
-            // await axios.get('/sanctum/csrf-cookie');
+            await axios.get('/sanctum/csrf-cookie');
             await axios.post('/logout');
             return dispatch("getUser");
         },

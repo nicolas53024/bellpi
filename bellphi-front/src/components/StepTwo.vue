@@ -119,7 +119,15 @@
                         $(".form-control").prop('disabled', true);
                         this.$store.commit('SET_CUSTOMER', this.currentUser)
                     }
-                }).catch(() => {});
+                }).catch((error) => {
+                    if(error.response.status == 422){
+                        this.$swal.fire({
+                            icon: 'error',
+                            title: 'Este vehículo ya esta parqueado',
+                        })
+                        $( ".previous" ).trigger( "click" );
+                    }
+                });
             },
         },
     }

@@ -2,8 +2,11 @@
     <div>
         <nav class="navbar navbar-expand-lg navbar-light  bg-secondary">
             <img alt="Vue logo" src="../assets/park.svg" width="40px" />
-            <router-link to="/" class="navbar-brand"> Home</router-link>
-            <router-link to="/" class="navbar-brand text-white"><u>Registro</u> </router-link>
+            <router-link :to="{name:'Register'}" class="navbar-brand"> Home</router-link>
+            <router-link :to="{name:'Register'}" class="navbar-brand" :class="{'text-white':currentPage==0}"><u>Registro</u> </router-link>
+            <router-link :to="{name:'Rates'}" class="navbar-brand" :class="{'text-white':currentPage==1}"><u>Tarifas</u> </router-link>
+            <router-link :to="{name:'Discount'}" class="navbar-brand" :class="{'text-white':currentPage==2}"><u>Descuentos</u> </router-link>
+            <router-link :to="{name:'Exit'}" class="navbar-brand" :class="{'text-white':currentPage==3}"><u>Salida de vehículo</u> </router-link>
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Nav currentPage="register" />
+        <Nav currentPage="0" />
         <div class="container mt-10">
             <h2 class="mb-5"> Seleccione un tipo de vehículo</h2>
             <div class="card-group  justify-content-center d-inline-flex">

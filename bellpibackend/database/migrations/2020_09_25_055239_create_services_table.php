@@ -19,7 +19,7 @@ class CreateServicesTable extends Migration
             $table->foreignId('vehicle_id')->nullable()->constrained();
             $table->foreignId('place_id')->nullable()->constrained();
             $table->timestamp('inicio')->useCurrent();
-            $table->timestamp('final');
+            $table->timestamp('final')->nullable();
         });
     }
 

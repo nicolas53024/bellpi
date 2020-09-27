@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\DiscountController;
+use App\Http\Controllers\api\RatesController;
 use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,11 +24,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-Route::post('/get-user', [ServiceController::class, 'getUserBySerial']);
+    Route::post('/get-user', [ServiceController::class, 'getUserBySerial']);
     Route::get('/get-places', [ServiceController::class, 'getPlaces']);
-Route::post('/store-service', [ServiceController::class, 'storeService']);
+    Route::post('/store-service', [ServiceController::class, 'storeService']);
+    Route::get('/get-rates', [RatesController::class, 'getRates']);
+    Route::post('/update-rate/{rate}', [RatesController::class, 'updateRate']);
+    Route::get('/get-current-discount', [DiscountController::class, 'getCurrentDiscount']);
+    Route::post('/update-discount/{discount}', [DiscountController::class, 'updateDiscount']);
+    Route::post('/get-service', [ServiceController::class, 'getService']);
+    Route::post('/end-service/{service}', [ServiceController::class, 'endService']);
+
 });
-//Route::middleware('auth:sanctum')->post('/get-user', [ServiceController::class, 'getUserBySerial']);
-//Route::get('/get-user', [ServiceController::class, 'getUserBySerial']);
+
 
 

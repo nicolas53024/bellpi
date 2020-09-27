@@ -6,16 +6,32 @@
             </div>
             <div class="d-flex justify-content-between  p-0 mb-3">
                 <div class="btn  col-2" v-for="(auto,index) in automoviles[0]" :key="index" :class="{'full btn-danger':auto.vehicle_id,'btn-success':!auto.vehicle_id,'full':auto.type_vehicle_id !=idType}
-                            " @click="selectPlace(auto)">
-                    <small v-if="auto.vehicle_id">{{auto.vehicle_id}}</small>
-                    <small v-else>{{auto.name}}</small>
+                                        " @click="selectPlace(auto)">
+                    <div v-if="auto.vehicle_id">
+                        <popper trigger="hover" :options="{placement: 'bottom'}">
+                            <div class="popper">
+                                <strong>{{auto.vehicle.name}}</strong><br> {{auto.vehicle.document}} </div>
+                            <small slot="reference">{{auto.vehicle.placa}}</small>
+                        </popper>
+                    </div>
+                    <div v-else>
+                        <small><i class="fas fa-car"></i> {{auto.name}}</small>
+                    </div>
                 </div>
             </div>
             <div class="d-flex justify-content-between  mb-1" v-for="(chunk,index) in motos" :key="index">
                 <div class="btn  col-1" v-for="(moto,indexChunk) in chunk" :key="indexChunk" :class="{'full btn-danger':moto.vehicle_id,'btn-success':!moto.vehicle_id,'full':moto.type_vehicle_id !=idType}
-                            " @click="selectPlace(moto)">
-                    <small v-if="moto.vehicle_id">{{moto.vehicle_id}}</small>
-                    <small v-else>{{moto.name}}</small>
+                                        " @click="selectPlace(moto)" data-container="body" :data-toggle="moto.id" data-placement="bottom" data-content="Vivamu">
+                    <div v-if="moto.vehicle_id">
+                        <popper trigger="hover" :options="{placement: 'bottom'}">
+                            <div class="popper">
+                                <strong>{{moto.vehicle.name}}</strong><br> {{moto.vehicle.document}} </div>
+                            <small slot="reference">{{moto.vehicle.placa}}</small>
+                        </popper>
+                    </div>
+                    <div v-else>
+                        <small><i class="fas fa-motorcycle"></i> {{moto.name}}</small>
+                    </div>
                 </div>
             </div>
             <div class="d-flex justify-content-between mb-2 mt-2 ml-5">
@@ -23,16 +39,32 @@
             </div>
             <div class="d-flex justify-content-between mb-3">
                 <div class="btn  col-1" v-for="(bicicleta,index) in bicicletas" :key="index" :class="{'full btn-danger':bicicleta.vehicle_id,'btn-success':!bicicleta.vehicle_id,'full':bicicleta.type_vehicle_id !=idType}
-                            " @click="selectPlace(bicicleta)">
-                    <small v-if="bicicleta.vehicle_id">{{bicicleta.vehicle_id}}</small>
-                    <small v-else>{{bicicleta.name}}</small>
+                                        " @click="selectPlace(bicicleta)">
+                    <div v-if="bicicleta.vehicle_id">
+                        <popper trigger="hover" :options="{placement: 'bottom'}">
+                            <div class="popper">
+                                <strong>{{bicicleta.vehicle.name}}</strong><br> {{bicicleta.vehicle.document}} </div>
+                            <small slot="reference">{{bicicleta.vehicle.placa}}</small>
+                        </popper>
+                    </div>
+                    <div v-else>
+                        <small><i class="fas fa-bicycle"></i> {{bicicleta.name}}</small>
+                    </div>
                 </div>
             </div>
             <div class="d-flex justify-content-between ">
                 <div class="btn  col-2" v-for="(auto,index) in automoviles[1]" :key="index" :class="{'full btn-danger':auto.vehicle_id,'btn-success':!auto.vehicle_id,'full':auto.type_vehicle_id !=idType}
-                            " @click="selectPlace(auto)">
-                    <small v-if="auto.vehicle_id">{{auto.vehicle_id}}</small>
-                    <small v-else>{{auto.name}}</small>
+                                        " @click="selectPlace(auto)">
+                    <div v-if="auto.vehicle_id">
+                        <popper trigger="hover" :options="{placement: 'top'}">
+                            <div class="popper">
+                                <strong>{{auto.vehicle.name}}</strong><br> {{auto.vehicle.document}} </div>
+                            <small slot="reference">{{auto.vehicle.placa}}</small>
+                        </popper>
+                    </div>
+                    <div v-else>
+                        <small><i class="fas fa-car"></i> {{auto.name}}</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,10 +72,15 @@
 </template>
 
 <script>
+    import Popper from 'vue-popperjs';
+    import 'vue-popperjs/dist/vue-popper.css';
     import axios from 'axios';
     import _ from 'lodash';
     axios.defaults.withCredentials = true;
     export default {
+        components: {
+            Popper,
+        },
         props: ['clickedNext', 'currentStep'],
         data() {
             return {
@@ -81,15 +118,18 @@
                 })
             },
             selectPlace(val) {
-                if (val.type_vehicle_id == this.idType) {
+                if (val.type_vehicle_id == this.idType && !val.vehicle_id) {
                     this.$store.commit('SET_PLACE', val.id);
                     this.$swal.fire({
                         icon: 'success',
                         title: 'Perfecto!',
-                        text: "Has escogido el "+val.name+" como sitio de parqueo,ahora da click en finalizar",
+                        text: "Has escogido el " + val.name + " como sitio de parqueo,ahora da click en finalizar para completar el servicio",
                         showConfirmButton: true,
                     })
                 }
+            },
+            mouseOver(obj) {
+                console.log(obj);
             }
         },
     }
