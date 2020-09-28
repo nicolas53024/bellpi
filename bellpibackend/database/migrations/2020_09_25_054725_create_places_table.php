@@ -16,9 +16,9 @@ class CreatePlacesTable extends Migration
         Schema::create('places', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('type_vehicle_id')->nullable();
+            $table->bigInteger('type_vehicle_id')->nullable()->unsigned();
             $table->foreign('type_vehicle_id')->references('id')->on('types_vehicles');
-            $table->foreignId('vehicle_id')->nullable()->constrained();
+            $table->foreignId('vehicle_id')->nullable()->constrained()->unsigned();
         });
     }
 

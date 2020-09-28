@@ -103,12 +103,10 @@ router.beforeEach((to, from, next) => {
         if (store.state.authenticated) {
             next();
         } else {
-
             next({ name: "Home" });
         }
     } else {
         next();
     }
-
 });
 export default router;
