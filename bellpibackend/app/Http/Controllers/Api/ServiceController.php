@@ -31,11 +31,12 @@ class ServiceController extends Controller
     }
 
     public function storeService(Request $request){
+        Log::debug($request);
         try{
             DB::beginTransaction();
             $user = User::firstOrCreate([
-                'document' =>  $request->service['user']['documento'],
-                ],['name' =>  $request->service['user']['nombre']]);
+                'document' =>  $request->service['user']['document'],
+                ],['name' =>  $request->service['user']['name']]);
             $vehicle=Vehicle::firstOrCreate([
                 'placa'=>$request->service['placa'],
             ],[
@@ -84,6 +85,10 @@ class ServiceController extends Controller
     public function endService(Request $request,Service $service){
         $now = Carbon::now();
         $minuts = $now->diffInMinutes($service->inicio);
+        Log::info($minuts);
+        if($minuts == 0){
+            $minuts=1;
+        }
         $discount=Discount::where('minutes','>',0)->where('minutes','<=',$minuts)->first();
         $rate=Rate::where('type_vehicle_id',$request->idType)->select('rate_per_minute')->first();
         $rate=$rate->rate_per_minute;
@@ -95,6 +100,7 @@ class ServiceController extends Controller
         }
         try {
             $service->update([
+                'minutes'=>$minuts,
                 'final' => $now,
                 'final_price' => $totalAmount,
             ]);

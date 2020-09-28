@@ -16,9 +16,11 @@ Vue.use(VueSweetalert2);
 Vue.use(Vuelidate);
 Vue.use(lodash);
 
-new Vue({
-    router,
-    store,
-    mixins: [mixin],
-    render: h => h(App)
-}).$mount("#app");
+store.dispatch('getUser').then(() => {
+    new Vue({
+        router,
+        store,
+        mixins: [mixin],
+        render: h => h(App)
+    }).$mount("#app");
+});

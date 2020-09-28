@@ -2,7 +2,7 @@
     <div>
         <vue-confirm-dialog></vue-confirm-dialog>
         <Nav currentPage="3" />
-        <Voucher :responseService="responseService" />
+        <Voucher :responseServiceProp="responseService" :placaProp="placa" :serviceProp="service" @finalizar="finish" ref="modal"/>
         <div class="container">
             <h1>Salida <i class="fas fa-share"></i></h1>
             <div class="card">
@@ -61,7 +61,6 @@
     import axios from 'axios';
     axios.defaults.withCredentials = true;
     import moment from 'moment';
-    import $ from 'jquery';
     import Nav from "@/components/NavComponent.vue";
     import Voucher from "@/components/Voucher.vue";
     export default {
@@ -73,7 +72,7 @@
             return {
                 placa: '',
                 service: null,
-                responseService:{}
+                responseService: null
             }
         },
         validations: {
@@ -89,13 +88,12 @@
         },
         methods: {
             getData() {
-                
                 axios.post(`${this.baseUrl}/api/get-service`, {
                     placa: this.placa
                 }).then((res) => {
-                   this.service= res.data;
-                   this.service.fecha=moment(res.data.inicio).format("DD [de] MMMM,YYYY");
-                   this.service.hora=moment(res.data.inicio).format('hh:mm A');
+                    this.service = res.data;
+                    this.service.fecha = moment(res.data.inicio).format("DD [de] MMMM,YYYY");
+                    this.service.hora = moment(res.data.inicio).format('hh:mm A');
                 }).catch((error) => {
                     console.log(error);
                     this.$swal.fire({
@@ -113,19 +111,14 @@
                         yes: 'Si'
                     },
                     callback: confirm => {
-                        $('#modal').show();
                         if (confirm) {
-                            axios.post(this.baseUrl + '/api/end-service/' + this.service.service_id,{
+                            axios.post(this.baseUrl + '/api/end-service/' + this.service.service_id, {
                                 idType: this.service.idType
                             }).then((res) => {
-                                //TODO:enviar valores como prop a modal para factura
-                                console.log(res.data);
-                                this.$swal.fire({
-                                    icon: 'success',
-                                    title: 'Perfecto!',
-                                    text: 'Descuento actualizado con exito',
-                                    showConfirmButton: true,
-                                });
+                                this.responseService = res.data
+                                this.responseService.fechaSalida = moment(res.data.exit).format("DD [de] MMMM,YYYY");
+                                this.responseService.horaSalida = moment(res.data.exit).format('hh:mm A');
+                                this.$refs.modal.showModal(); 
                             }).catch(() => {
                                 this.$swal.fire({
                                     icon: 'error',
@@ -136,6 +129,17 @@
                     }
                 })
             },
+            finish() {
+                this.$swal.fire({
+                    icon: 'success',
+                    title: 'Perfecto!',
+                    text: 'Informacion guardada con exito',
+                    showConfirmButton: true,
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 3000)
+            }
         },
         watch: {
             placa() {

@@ -6,18 +6,18 @@
                     <form>
                         <div class="row mb-4 mt-4">
                             <div class="col">
-                                <input type="text" class="form-control" id="document" placeholder="Numero de documento" v-model="form.documento" :class="{
-                                                    'is-valid':!$v.form.documento.$invalid ,
-                                                    'is-invalid':$v.form.documento.$invalid && $v.form.documento.$model,
+                                <input type="text" class="form-control" id="document" placeholder="Numero de documento" v-model="form.document" :class="{
+                                                    'is-valid':!$v.form.document.$invalid ,
+                                                    'is-invalid':$v.form.document.$invalid && $v.form.document.$model,
                                                   }">
-                                <p v-if="!$v.form.documento.numeric && $v.form.documento.$model || $v.form.documento.minLegth && $v.form.documento.$model" class="text-danger"><small>El documento debe ser numerico y mayor a 6 caracteres.</small></p>
+                                <p v-if="!$v.form.document.numeric && $v.form.document.$model || $v.form.document.minLegth && $v.form.document.$model" class="text-danger"><small>El document debe ser numerico y mayor a 6 caracteres.</small></p>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control " placeholder="Nombre" v-model="form.nombre" :class="{
-                                                    'is-valid':!$v.form.nombre.$invalid ,
-                                                    'is-invalid':$v.form.nombre.$invalid && $v.form.nombre.$model,
+                                <input type="text" class="form-control " placeholder="nombre" v-model="form.name" :class="{
+                                                    'is-valid':!$v.form.name.$invalid ,
+                                                    'is-invalid':$v.form.name.$invalid && $v.form.name.$model,
                                                   }">
-                                <p v-if="!$v.form.nombre.minLength && $v.form.nombre.$model" class="text-danger"><small>El nombre es obligatorio.</small></p>
+                                <p v-if="!$v.form.name.minLength && $v.form.name.$model" class="text-danger"><small>El name es obligatorio.</small></p>
                             </div>
                         </div>
                     </form>
@@ -41,8 +41,8 @@
         data() {
             return {
                 form: {
-                    documento: '',
-                    nombre: '',
+                    document: '',
+                    name: '',
                 },
                 idType: '',
                 currentUser:null
@@ -50,12 +50,12 @@
         },
         validations: {
             form: {
-                documento: {
+                document: {
                     required,
                     numeric,
                     minLength: minLength(6),
                 },
-                nombre: {
+                name: {
                     required,
                     minLength: minLength(6),
                 },
@@ -113,8 +113,8 @@
                         })
                         $( ".previous" ).trigger( "click" );
                     } else {
-                        this.form.documento = res.data.user.document;
-                        this.form.nombre = res.data.user.name;
+                        this.form.document = res.data.user.document;
+                        this.form.name = res.data.user.name;
                         this.currentUser=res.data.user;
                         $(".form-control").prop('disabled', true);
                         this.$store.commit('SET_CUSTOMER', this.currentUser)

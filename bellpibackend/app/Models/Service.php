@@ -14,7 +14,8 @@ class Service extends Model
         'vehicle_id',
         'place_id',
         'final',
-        'final_price'
+        'final_price',
+        'minutes',
     );
 
 }

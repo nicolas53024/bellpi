@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\DiscountController;
 use App\Http\Controllers\api\RatesController;
+use App\Http\Controllers\api\ReportController;
 use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/update-discount/{discount}', [DiscountController::class, 'updateDiscount']);
     Route::post('/get-service', [ServiceController::class, 'getService']);
     Route::post('/end-service/{service}', [ServiceController::class, 'endService']);
+    Route::post('/get-place-report',[ReportController::class,'getPlace']);
+    Route::post('/get-vehicles-services-report',[ReportController::class,'getServicesByVehicle']);
+    Route::post('/count-vehicles-report',[ReportController::class,'countVehicles']);
+    Route::post('/earning-report',[ReportController::class,'earningsReport']);
 
 });
 

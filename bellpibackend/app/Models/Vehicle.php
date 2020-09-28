@@ -17,4 +17,7 @@ class Vehicle extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    public function servicesComplete(){
+        return $this->hasMany(Service::class,'vehicle_id','id');
+    }
 }
